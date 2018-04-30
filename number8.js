@@ -1,15 +1,31 @@
 
-var dom_days = document.getElementById("npt-days");
-var dom_startDate = document.getElementById("npt-start-date");
-var dom_codeCountry = document.getElementById("npt-country-code");
-var dom_btn = document.getElementById("btn-generate");
-var dom_pnl = document.getElementById("pnl-calendar");
+var _npt_days = document.getElementById("npt-days");
+var _npt_startDate = document.getElementById("npt-start-date");
+var _npt_codeCountry = document.getElementById("npt-country-code");
+var _btn_action = document.getElementById("btn-generate");
+var _pnl_calendars = document.getElementById("pnl-calendar");
 
 
-dom_btn.addEventListener("click", function () {
-    var startDate = new Date(dom_startDate.value); // set the start date
-    var days_npt = dom_days.value; // set count days
+_btn_action.addEventListener("click", function () {
+    var startDate = new Date(_npt_startDate.value); // set the start date
+    var calculateDays = _npt_days.value; // set count days - test on console
+ 
+    var daysInMonth = new Date(startMonthDay.getFullYear(), startMonthDay.getUTCMonth(), 0).getUTCDate();
+  
+    var weeks = 1;
+    var initDay = startMonthDay.getUTCDay();
+    var dayLimit = startMonthDay.getDate() + calculateDays;
+    weeks += calculateDays / 7;
 
+    // _pnl_calendars.appendChild(
+    //     buildCalendar(
+    //         weeks, 
+    //         startMonthDay.getUTCMonth() + "-" + startMonthDay.getFullYear(), 
+    //         initDay, 
+    //         startMonthDay.getUTCDate(),
+    //         calculateDays)
+    //     );
+ 
     // testing calendar
 
 }, false);
@@ -29,9 +45,9 @@ var dic_months = {
     11: "December"
 }
 
-function buildCalendar() {
-
-    return; // return the calendar per month
+function buildCalendar(title, weeks, initDay, initDate, daysCount) {
+    
+    return ;  // return the calendar per month
 }
 
 
