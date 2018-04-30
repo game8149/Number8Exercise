@@ -8,29 +8,43 @@ var _pnl_calendars = document.getElementById("pnl-calendar");
 
 _btn_action.addEventListener("click", function () {
     var startDate = new Date(_npt_startDate.value); // set the start date
-    var calculateDays = parseInt(_npt_days.value); // set count days - test on console
- 
-    var daysInMonth = new Date(startDate.getFullYear(), startDate.getUTCMonth(), 0).getUTCDate();
-  
-    var weeks = 1;
-    var initDay = startDate.getUTCDay();
-    var dayLimit = startDate.getDate() + calculateDays;
-    weeks += calculateDays / 7;
-    console.log(weeks);
-    console.log(dayLimit);
-    console.log(initDay);
-    console.log(daysInMonth);
+    var days_npt = parseInt(_npt_days.value); // set count days 
     
-    _pnl_calendars.appendChild(
-        buildCalendar(
-            dic_months[startDate.getUTCMonth()] + "-" + startDate.getFullYear(),
-            weeks,  
-            initDay, 
-            startDate.getUTCDate(),
-            calculateDays)
-        );
- 
-    // testing calendar
+    while (days_npt > 0) { // while there are days to consume
+        var calculateDays = 0;
+        var daysInMonth = new Date(startDate.getFullYear(), startDate.getUTCMonth(), 0).getUTCDate();
+
+        //Validating remaining days
+        if (startDate.getUTCDate() + days_npt > daysInMonth) {
+            calculateDays = daysInMonth - startDate.getUTCDate();
+            days_npt -= (daysInMonth - startDate.getUTCDate()); // set remaining days
+        } else {
+            calculateDays = days_npt;
+            days_npt = 0; //consume all days
+        }
+
+        //Calculating parameters
+        var weeks = 1;
+        var initDay = startDate.getUTCDay();
+        var dayLimit = startDate.getDate() + calculateDays;
+        weeks += calculateDays / 7; 
+
+        _pnl_calendars.appendChild(
+            buildCalendar(
+                dic_months[startDate.getUTCMonth()] + "-" + startDate.getFullYear(),
+                weeks,  
+                initDay, 
+                startDate.getUTCDate(),
+                calculateDays)
+            );
+        if (startDate.getMonth() === 11) {
+            startDate = new Date(startDate.getFullYear() + 1, startDate.getMonth() + 1, 1)
+        }
+        else {
+            startDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1)
+        }
+
+    } 
 
 }, false);
 
