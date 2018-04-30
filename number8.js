@@ -8,23 +8,27 @@ var _pnl_calendars = document.getElementById("pnl-calendar");
 
 _btn_action.addEventListener("click", function () {
     var startDate = new Date(_npt_startDate.value); // set the start date
-    var calculateDays = _npt_days.value; // set count days - test on console
+    var calculateDays = parseInt(_npt_days.value); // set count days - test on console
  
-    var daysInMonth = new Date(startMonthDay.getFullYear(), startMonthDay.getUTCMonth(), 0).getUTCDate();
+    var daysInMonth = new Date(startDate.getFullYear(), startDate.getUTCMonth(), 0).getUTCDate();
   
     var weeks = 1;
-    var initDay = startMonthDay.getUTCDay();
-    var dayLimit = startMonthDay.getDate() + calculateDays;
+    var initDay = startDate.getUTCDay();
+    var dayLimit = startDate.getDate() + calculateDays;
     weeks += calculateDays / 7;
-
-    // _pnl_calendars.appendChild(
-    //     buildCalendar(
-    //         weeks, 
-    //         startMonthDay.getUTCMonth() + "-" + startMonthDay.getFullYear(), 
-    //         initDay, 
-    //         startMonthDay.getUTCDate(),
-    //         calculateDays)
-    //     );
+    console.log(weeks);
+    console.log(dayLimit);
+    console.log(initDay);
+    console.log(daysInMonth);
+    
+    _pnl_calendars.appendChild(
+        buildCalendar(
+            dic_months[startDate.getUTCMonth()] + "-" + startDate.getFullYear(),
+            weeks,  
+            initDay, 
+            startDate.getUTCDate(),
+            calculateDays)
+        );
  
     // testing calendar
 
@@ -46,8 +50,27 @@ var dic_months = {
 }
 
 function buildCalendar(title, weeks, initDay, initDate, daysCount) {
-    
-    return ;  // return the calendar per month
+    var i=0;  
+    var tbl= builDomCalendar(title);
+    while (weeks > 0) {
+        var tr = document.createElement('tr');
+        for (i = 0; i < 7; i++) {
+            var td = document.createElement('td');
+            if (i >= initDay && initDate < daysCount) { 
+                td.innerHTML = "<a class='ui green circular label'>" + initDate + "</a>";
+                initDate += 1;
+                initDay += 1;
+            }
+            else {
+                td.innerHTML = "<a class='ui grey circular label'>-</a>";
+            }
+            tr.appendChild(td);
+        }
+        initDay = 0;
+        weeks -= 1
+        tbl.tBodies[0].appendChild(tr);
+    } 
+    return tbl;   // return the calendar per month
 }
 
 
@@ -85,6 +108,7 @@ function builDomCalendar(title) {
     th = document.createElement('th');
     th.innerHTML = title;
     th.colSpan = 7;
+    th.className="ui center aligned"
     tr.appendChild(th);
 
     thead.appendChild(tr);
