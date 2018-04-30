@@ -9,7 +9,7 @@ var _pnl_calendars = document.getElementById("pnl-calendar");
 _btn_action.addEventListener("click", function () {
     var startDate = new Date(_npt_startDate.value); // set the start date
     var days_npt = parseInt(_npt_days.value); // set count days 
-    
+
     while (days_npt > 0) { // while there are days to consume
         var calculateDays = 0;
         var daysInMonth = new Date(startDate.getFullYear(), startDate.getUTCMonth(), 0).getUTCDate();
@@ -27,16 +27,16 @@ _btn_action.addEventListener("click", function () {
         var weeks = 1;
         var initDay = startDate.getUTCDay();
         var dayLimit = startDate.getDate() + calculateDays;
-        weeks += calculateDays / 7; 
+        weeks += calculateDays / 7;
 
         _pnl_calendars.appendChild(
             buildCalendar(
                 dic_months[startDate.getUTCMonth()] + "-" + startDate.getFullYear(),
-                weeks,  
-                initDay, 
+                weeks,
+                initDay,
                 startDate.getUTCDate(),
                 calculateDays)
-            );
+        );
         if (startDate.getMonth() === 11) {
             startDate = new Date(startDate.getFullYear() + 1, startDate.getMonth() + 1, 1)
         }
@@ -44,7 +44,7 @@ _btn_action.addEventListener("click", function () {
             startDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1)
         }
 
-    } 
+    }
 
 }, false);
 
@@ -64,14 +64,20 @@ var dic_months = {
 }
 
 function buildCalendar(title, weeks, initDay, initDate, daysCount) {
-    var i=0;  
-    var tbl= builDomCalendar(title);
+    var i = 0;
+    var tbl = builDomCalendar(title);
     while (weeks > 0) {
         var tr = document.createElement('tr');
         for (i = 0; i < 7; i++) {
             var td = document.createElement('td');
-            if (i >= initDay && initDate < daysCount) { 
-                td.innerHTML = "<a class='ui green circular label'>" + initDate + "</a>";
+            if (i >= initDay && initDate < daysCount) {
+
+                var color = '';
+
+                if (i === 0 || i === 6) color = "yellow";
+                else color = "green"
+
+                td.innerHTML = "<a class='ui " + color + " circular label'>" + initDate + "</a>";
                 initDate += 1;
                 initDay += 1;
             }
@@ -83,7 +89,7 @@ function buildCalendar(title, weeks, initDay, initDate, daysCount) {
         initDay = 0;
         weeks -= 1
         tbl.tBodies[0].appendChild(tr);
-    } 
+    }
     return tbl;   // return the calendar per month
 }
 
@@ -122,7 +128,7 @@ function builDomCalendar(title) {
     th = document.createElement('th');
     th.innerHTML = title;
     th.colSpan = 7;
-    th.className="ui center aligned"
+    th.className = "ui center aligned"
     tr.appendChild(th);
 
     thead.appendChild(tr);
