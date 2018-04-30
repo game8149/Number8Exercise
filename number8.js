@@ -12,10 +12,10 @@ _btn_action.addEventListener("click", function () {
 
     while (days_npt > 0) { // while there are days to consume
         var calculateDays = 0;
-        var daysInMonth = new Date(startDate.getFullYear(), startDate.getUTCMonth(), 0).getUTCDate();
-
+        var daysInMonth = new Date(startDate.getFullYear(), startDate.getUTCMonth()+1, 0).getUTCDate();
+        var starDateNumber=startDate.getUTCDate();
         //Validating remaining days
-        if (startDate.getUTCDate() + days_npt > daysInMonth) {
+        if (starDateNumber + days_npt > daysInMonth) {
             calculateDays = daysInMonth - startDate.getUTCDate();
             days_npt -= (daysInMonth - startDate.getUTCDate()); // set remaining days
         } else {
@@ -26,16 +26,16 @@ _btn_action.addEventListener("click", function () {
         //Calculating parameters
         var weeks = 1;
         var initDay = startDate.getUTCDay();
-        var dayLimit = startDate.getDate() + calculateDays;
+        var dayLimit = startDate.getDate() + calculateDays ;
         weeks += calculateDays / 7;
 
         _pnl_calendars.appendChild(
             buildCalendar(
                 dic_months[startDate.getUTCMonth()] + "-" + startDate.getFullYear(),
-                weeks,
+                parseInt(weeks.toString()),
                 initDay,
                 startDate.getUTCDate(),
-                calculateDays)
+                dayLimit)
         );
         if (startDate.getMonth() === 11) {
             startDate = new Date(startDate.getFullYear() + 1, startDate.getMonth() + 1, 1)
@@ -70,10 +70,8 @@ function buildCalendar(title, weeks, initDay, initDate, daysCount) {
         var tr = document.createElement('tr');
         for (i = 0; i < 7; i++) {
             var td = document.createElement('td');
-            if (i >= initDay && initDate < daysCount) {
-
-                var color = '';
-
+            if (i >= initDay && initDate <= daysCount) { 
+                var color = ''; 
                 if (i === 0 || i === 6) color = "yellow";
                 else color = "green"
 
